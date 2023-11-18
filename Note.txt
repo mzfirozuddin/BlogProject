@@ -1,0 +1,16 @@
+In Create-react-app:
+    environment variables starting with => REACT_APP_
+    eg:- REACT_APP_SECRET_KEY="dwdfdhuud"
+
+    when you want to access, you have to use "process.env"
+    eg: process.env.REACT_APP_SECRET_KEY
+
+
+In Vite react app:
+    environment variables starting with => VITE_
+    eg:- VITE_SECRET_KEY="dwdfdhuud"
+
+    when you want to access, you have to use "import.meta.env"
+    eg: import.meta.env.VITE_SECRET_KEY
+
+For next.js it will be different
