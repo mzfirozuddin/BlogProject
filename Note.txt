@@ -14,3 +14,7 @@ In Vite react app:
     eg: import.meta.env.VITE_SECRET_KEY
 
 For next.js it will be different
+
+
+NOTE:
+To get reqular expression for email, password visit:- https://regexr.com/
