@@ -18,3 +18,6 @@ For next.js it will be different
 
 NOTE:
 To get reqular expression for email, password visit:- https://regexr.com/
+
+
+
