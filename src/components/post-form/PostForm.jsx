@@ -6,20 +6,23 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 function PostForm({ post }) {
-    const navigate = useNavigate();
-    const userData = useSelector((state) => state.auth.userData);
     const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
         defaultValues: {
             title: post?.title || "",
-            slug: post?.slug || "",
+            slug: post?.$id || "",
             content: post?.content || "",
             status: post?.status || "active"
         }
     });
 
+    const navigate = useNavigate();
+    const userData = useSelector((state) => state.auth.userData);
+
+
     const submit = async (data) => {
         if (post) {
-            const file = data.image[0] ? appwriteService.uploadFile(data.image[0]) : null;
+            const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
+            // const file = await appwriteService.uploadFile(data.image[0]);
 
             if (file) {
                 appwriteService.deleteFile(post.featuredImage);
@@ -36,11 +39,14 @@ function PostForm({ post }) {
 
         } else {
             // const file = data.image[0] ? appwriteService.uploadFile(data.image[0]) : null;
+            // console.log(data);
             const file = await appwriteService.uploadFile(data.image[0]);
+            // console.log(file);
 
             if (file) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
+                // console.log(userData);
                 const dbPost = await appwriteService.createPost({
                     ...data,
                     userId: userData.$id
@@ -58,8 +64,9 @@ function PostForm({ post }) {
             return value
                 .trim()
                 .toLowerCase()
-                .replace(/^[a-zA-Z\d\s]/g, "-")
+                .replace(/[^a-zA-Z\d\s]+/g, "-")
                 .replace(/\s/g, "-");
+
         }
         return "";
 
@@ -68,7 +75,7 @@ function PostForm({ post }) {
     useEffect(() => {
         const subscription = watch((value, { name }) => {
             if (name === "title") {
-                setValue("slug", slugTransform(value.title, { shouldValidate: true }));
+                setValue("slug", slugTransform(value.title), { shouldValidate: true });
             }
         });
 

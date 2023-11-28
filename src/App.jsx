@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import authSerice from "./appwrite/auth";
+import authService from "./appwrite/auth";
 import { login, logout } from "./store/authSlice";
 import { Footer, Header } from "./components";
 import { Outlet } from "react-router-dom";
 
 function App() {
-  const [loading, setLoding] = useState(true);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    authSerice.getCurrentUser()
+    authService.getCurrentUser()
       .then((userData) => {
         if (userData) {
           dispatch(login({ userData }));
@@ -18,7 +18,7 @@ function App() {
           dispatch(logout());
         }
       })
-      .finally(() => setLoding(false))
+      .finally(() => setLoading(false))
   }, [])
 
   return !loading ? (
