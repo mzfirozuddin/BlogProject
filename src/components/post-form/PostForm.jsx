@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 function PostForm({ post }) {
     const navigate = useNavigate();
-    const userData = useSelector((state) => state.user.userData);
+    const userData = useSelector((state) => state.auth.userData);
     const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
         defaultValues: {
             title: post?.title || "",
@@ -58,7 +58,7 @@ function PostForm({ post }) {
             return value
                 .trim()
                 .toLowerCase()
-                .replace(/^[a-zA-Z\d\s]+/g, "-")
+                .replace(/^[a-zA-Z\d\s]/g, "-")
                 .replace(/\s/g, "-");
         }
         return "";
@@ -115,6 +115,7 @@ function PostForm({ post }) {
                     {...register("image", { required: !post })}
                 />
 
+
                 {post && (
                     <div className='w-full mb-4'>
                         <img
@@ -128,7 +129,7 @@ function PostForm({ post }) {
                 <Select
                     options={["active", "inactive"]}
                     label="Status"
-                    className="mb-3"
+                    className="mb-3 cursor-pointer"
                     {...register("status", { required: true })}
                 />
 
@@ -136,7 +137,7 @@ function PostForm({ post }) {
                     type="submit"
                     bgColor={post ? "bg-green-500" : undefined}
                     className='w-full'
-                >{post ? "Edit" : "Submit"}</Button>
+                >{post ? "Update" : "Submit"}</Button>
             </div>
         </form>
     )
